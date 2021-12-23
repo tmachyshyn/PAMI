@@ -28,17 +28,35 @@ A port for erlang is available at: https://github.com/marcelog/erlami
 
 # PHP Versions
 
+## PHP 5
+
 Note: PAMI Requires PHP 5.3+. PHP versions 5.3.9 and 5.3.10 WILL NOT WORK due
 to a bug introduced in stream_get_line() in 5.3.9. Please use 5.3.11+ or up
 to 5.3.8 (see README.PHP-5.3.9-and-5.3.10).
 
+## PHP 7
+
+Supported version: 7.0, 7.1, 7.2, 7.3, 7.4.
+
+## PHP 8
+
+Supported version: 8.0, 8.1.
+
+
 # Installing
 Add this library to your [Composer](https://packagist.org/) configuration. In
 composer.json:
+
 ```json
   "require": {
-    "marcelog/pami": "2.*"
-  }
+      "marcelog/pami": "dev-master#2.0.3"
+  },
+  "repositories": [
+      {
+          "type": "git",
+          "url": "https://github.com/tmachyshyn/PAMI.git"
+      }
+  ]
 ```
 
 # QuickStart
