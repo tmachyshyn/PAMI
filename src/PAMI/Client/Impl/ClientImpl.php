@@ -177,6 +177,9 @@ class ClientImpl implements IClient
         if ($this->socket === false) {
             throw new ClientException('Error connecting to ami: ' . $errstr);
         }
+
+        @stream_set_chunk_size ($this->socket, 524287);
+
         $msg = new LoginAction($this->user, $this->pass, $this->eventMask);
         $asteriskId = @stream_get_line($this->socket, 1024, Message::EOL);
         if (strstr($asteriskId, 'Asterisk') === false) {
@@ -237,7 +240,7 @@ class ClientImpl implements IClient
     {
         $msgs = array();
         // Read something.
-        $read = @fread($this->socket, 65535);
+        $read = @fread($this->socket, 524287);
         if ($read === false || @feof($this->socket)) {
             throw new ClientException('Error reading');
         }
