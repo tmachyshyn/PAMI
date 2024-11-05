@@ -59,6 +59,8 @@ class ResponseMessage extends IncomingMessage
      */
     private $completed;
 
+    private int $eventsCount;
+
     /**
      * Serialize function.
      *
@@ -94,9 +96,13 @@ class ResponseMessage extends IncomingMessage
     public function addEvent(EventMessage $event)
     {
         $this->events[] = $event;
-        if (stristr($event->getEventList(), 'complete') !== false
-            || stristr($event->getName(), 'complete') !== false
-            || stristr($event->getName(), 'DBGetResponse') !== false
+
+        $name = $event->getName() ?? '';
+        $eventList = $event->getEventList() ?? '';
+
+        if (stristr($eventList, 'complete') !== false
+            || stristr($name, 'complete') !== false
+            || stristr($name, 'DBGetResponse') !== false
         ) {
             $this->completed = true;
         }
@@ -119,7 +125,9 @@ class ResponseMessage extends IncomingMessage
      */
     public function isSuccess()
     {
-        return stristr($this->getKey('Response'), 'Error') === false;
+        $response = $this->getKey('Response') ?? '';
+
+        return stristr($response, 'Error') === false;
     }
 
     /**
@@ -131,9 +139,12 @@ class ResponseMessage extends IncomingMessage
      */
     public function isList()
     {
+        $eventList = $this->getKey('EventList') ?? '';
+        $message = $this->getMessage() ?? '';
+
         return
-            stristr($this->getKey('EventList'), 'start') !== false
-            || stristr($this->getMessage(), 'follow') !== false
+            stristr($eventList, 'start') !== false
+            || stristr($message, 'follow') !== false
         ;
     }
 

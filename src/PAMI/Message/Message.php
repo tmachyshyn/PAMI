@@ -150,10 +150,12 @@ abstract class Message
     public function getKey($key)
     {
         $key = strtolower($key);
+
         if (!isset($this->keys[$key])) {
-            return null;
+            return '';
         }
-        return (string)$this->keys[$key];
+
+        return (string) $this->keys[$key];
     }
 
     /**
